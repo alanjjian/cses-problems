@@ -11,8 +11,28 @@ while employee < len(lst):
     tree[curr_boss].append(employee + 2)
     employee += 1
 
+trav = collections.deque()
+trav.append(1)
 
-memo = [-1 for i in range(n + 1)]
+trav2 = collections.deque()
+trav2.append(1)
+
+while True:
+    if len(trav) == 0:
+        break
+    curr_employee = trav.pop()
+    for subord in tree[curr_employee]:
+        trav.appendleft(subord)
+        trav2.appendleft(subord)
+
+memo = [0 for i in range(n + 1)]
+while True:
+    if len(trav2) == 0:
+        break
+    curr_employee = trav2.popleft()
+    memo[curr_employee] = len(tree[curr_employee])
+    for subord in tree[curr_employee]:
+        memo[curr_employee] += memo[subord]
 
 # broot force :3
 
@@ -28,4 +48,5 @@ memo = [-1 for i in range(n + 1)]
     return num_subords
 
 get_num_subordinates(1, memo)
-print(" ".join([str(i) for i in memo[1:]]))"""
+"""
+print(" ".join([str(i) for i in memo[1:]]))
